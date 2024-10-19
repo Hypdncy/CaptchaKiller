@@ -42,7 +42,7 @@ Python >=3.7，
 
 对应Burp功能，会不断的请求验证码数据包获取完整的验证码，该功能安装后持续可用
 
-![img_2.png](img_2.png)
+![img_2.png](doc/img_2.png)
 
 ## Replace模式
 
@@ -52,22 +52,22 @@ Python >=3.7，
 # 演示
 
 
-![img_1.png](img_1.png)
+![img_1.png](doc/img_1.png)
 
-![img.png](img.png)
+![img.png](doc/img.png)
 
 ## PayloadGen模式
 
-![img_3.png](img_3.png)
+![img_3.png](doc/img_3.png)
 
 后端数据包如下：
 
-![img_4.png](img_4.png)
+![img_4.png](doc/img_4.png)
 
 ## Replace模式
 
-![img_5.png](img_5.png)
+![img_5.png](doc/img_5.png)
 
 后端数据包如下：
 
-![img_6.png](img_6.png)
+![img_6.png](doc/img_6.png)
