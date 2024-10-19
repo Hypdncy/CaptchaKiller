@@ -14,7 +14,9 @@ https://github.com/f0ng/captcha-killer-modified
 
 # 安装
 
-Burp version >= 2024.7，Python >=3.7，建议持续使用最新版本
+Burp version >= 2024.7，建议持续使用最新版本
+
+Python >=3.7，
 
 # 使用方法
 
@@ -59,6 +61,7 @@ Burp version >= 2024.7，Python >=3.7，建议持续使用最新版本
 ![img_3.png](img_3.png)
 
 后端数据包如下：
+
 ![img_4.png](img_4.png)
 
 ## Replace模式
@@ -66,4 +69,5 @@ Burp version >= 2024.7，Python >=3.7，建议持续使用最新版本
 ![img_5.png](img_5.png)
 
 后端数据包如下：
+
 ![img_6.png](img_6.png)
