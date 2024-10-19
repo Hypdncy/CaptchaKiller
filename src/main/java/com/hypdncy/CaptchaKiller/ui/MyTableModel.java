@@ -78,7 +78,14 @@ public class MyTableModel extends AbstractTableModel {
         return captchaList.get(rowIndex);
     }
 
+    public void clearList() {
+        this.captchaList.clear();
+        fireTableDataChanged();
+    }
+
     public JTable getTable() {
         return table;
     }
+
+
 }

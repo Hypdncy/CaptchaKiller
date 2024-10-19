@@ -175,7 +175,12 @@ public class GUI {
         // 右面
         JTable table = new JTable(tableModel) {
         };
-        JScrollPane rightPane = new JScrollPane(table);
+        JScrollPane rightPane0 = new JScrollPane(table);
+        JButton clearCaptchaJButton = new JButton("清空列表");
+        JSplitPane rightPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+
+        rightPane.setLeftComponent(clearCaptchaJButton);
+        rightPane.setRightComponent(rightPane0);
         // 全部整合
         globalJPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         globalJPane.setLeftComponent(leftPane);
@@ -245,6 +250,9 @@ public class GUI {
                 }
             };
             worker.execute();
+        });
+        clearCaptchaJButton.addActionListener(e -> {
+            this.tableModel.clearList();
         });
 
     }
