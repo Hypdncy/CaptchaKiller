@@ -11,10 +11,14 @@ import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
 import com.hypdncy.CaptchaKiller.entity.CaptchaEntity;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.util.Arrays;
@@ -51,11 +55,13 @@ public class GUI {
     private HttpRequestResponse uiHttpRequestResponse;
     public final MyTableModel tableModel;
     public final MontoyaApi api;
+    public final int TableRowHeight ;
 
 
     public GUI(MontoyaApi api, MyTableModel tableModel) {
         this.tableModel = tableModel;
         this.api = api;
+        TableRowHeight = tableModel.getTable().getRowHeight();
     }
 
     public void initGUI() {
@@ -77,7 +83,7 @@ public class GUI {
         keyComboBox = new JComboBox<>(keyItems);
         keyJTextField = new JTextField("\"key\": *?\"(.*?)\"");
         valueComboBox = new JComboBox<>(valueItems);
-        valueTextField = new JTextField("data:image/png;base64,(.*?)\"");
+        valueTextField = new JTextField("data:image/[jpegn]+;base64,(.*?)[\"<']");
         JLabel keyRegJLabel = new JLabel("响应CaptchaKey:");
         JLabel valueRegJLabel = new JLabel("响应CaptchaValue:");
 
@@ -246,6 +252,11 @@ public class GUI {
                 protected void process(List<CaptchaEntity> captchaEntities) {
                     for (CaptchaEntity captchaEntity : captchaEntities) {
                         tableModel.add(captchaEntity);
+                        int newRow = tableModel.getRowCount() - 1;
+                        ImageIcon imageIcon = captchaEntity.getImgIcon();
+                        if (imageIcon.getIconHeight() > tableModel.getTable().getRowHeight()) {
+                            table.setRowHeight(newRow, imageIcon.getIconHeight());
+                        }
                     }
                 }
             };
@@ -327,8 +338,8 @@ public class GUI {
 
     public CaptchaEntity getCaptchaFromResponse(HttpRequestResponse requestResponse) {
         HttpResponse response = requestResponse.response();
-        CaptchaEntity captchaEntity = new CaptchaEntity("", null, "");
-
+        // CaptchaEntity captchaEntity = new CaptchaEntity("", null, "");
+        CaptchaEntity captchaEntity = new CaptchaEntity();
         // String[] keyItems = {"KeyReg", "KeyNone"};
         // String[] valueItems = {"ImgRegBase64", "ImgAllBytes", "ImgAllBase64"};
 
@@ -354,6 +365,27 @@ public class GUI {
             }
             default -> null;
         };
+
+        try {
+            if (imageData != null) {
+                InputStream buff = new ByteArrayInputStream(imageData);
+                Image img = ImageIO.read(buff);
+                ImageIcon icon = new ImageIcon(img);
+                captchaEntity.setImgIcon(icon);
+                // int columnWidth = this.tableModel.getTable().getColumn(0).getWidth();
+
+                // 宽度缩放
+                // if (icon.getIconWidth() > columnWidth) {
+                //     Image scaledImage = icon.getImage().getScaledInstance(
+                //             columnWidth, -1, Image.SCALE_SMOOTH);
+                //     captchaEntity.setImgIcon(new ImageIcon(scaledImage));
+                // } else {
+                //     captchaEntity.setImgIcon(icon);
+                // }
+            }
+        } catch (IOException e) {
+            // throw new RuntimeException(e);
+        }
         captchaEntity.setImgData(imageData);
         captchaEntity.setImgKey(imageKey);
         return captchaEntity;

@@ -24,35 +24,31 @@ public class CaptchaEntity {
 
     private String imgKey;
     private byte[] imgData;
+    private ImageIcon imgIcon;
     private String imgRes;
 
     public CaptchaEntity(String imgKey, byte[] imgData, String imgRes) {
         this.imgKey = imgKey;
         this.imgData = imgData;
+        this.imgIcon = null;
         this.imgRes = imgRes;
     }
 
     public CaptchaEntity() {
         this.imgKey = "";
         this.imgData = null;
+        this.imgIcon = blackIcon;
         this.imgRes = "";
     }
 
-    public static ImageIcon byte2img(byte[] imgData) {
-        ImageIcon icon = blackIcon;
-
-        if (imgData == null) {
-            return blackIcon;
-        }
-        InputStream buff = new ByteArrayInputStream(imgData);
-        Image img;
-        try {
-            img = ImageIO.read(buff);
-            icon = new ImageIcon(img);
-        } catch (IOException ignored) {
-        }
-        return icon;
+    public String getImgKey() {
+        return imgKey;
     }
+
+    public void setImgKey(String imgKey) {
+        this.imgKey = imgKey;
+    }
+
 
     public byte[] getImgData() {
         return imgData;
@@ -60,6 +56,14 @@ public class CaptchaEntity {
 
     public void setImgData(byte[] imgData) {
         this.imgData = imgData;
+    }
+
+    public ImageIcon getImgIcon() {
+        return imgIcon;
+    }
+
+    public void setImgIcon(ImageIcon imgIcon) {
+        this.imgIcon = imgIcon;
     }
 
     public String getImgRes() {
@@ -70,12 +74,5 @@ public class CaptchaEntity {
         this.imgRes = imgRes;
     }
 
-    public String getImgKey() {
-        return imgKey;
-    }
-
-    public void setImgKey(String imgKey) {
-        this.imgKey = imgKey;
-    }
 
 }

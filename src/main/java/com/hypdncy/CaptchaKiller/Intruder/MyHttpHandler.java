@@ -17,8 +17,6 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 import com.hypdncy.CaptchaKiller.entity.CaptchaEntity;
 import com.hypdncy.CaptchaKiller.ui.GUI;
 
-import java.util.Objects;
-
 import static burp.api.montoya.http.handler.RequestToBeSentAction.continueWith;
 
 public class MyHttpHandler implements HttpHandler {

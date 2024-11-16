@@ -21,6 +21,7 @@ public class MyTableModel extends AbstractTableModel {
     private final String[] title = {"验证码", "识别结果", "识别Key"};
     private final JTable table;
 
+
     public MyTableModel(JTable table) {
         this.table = table;
         this.captchaList = new ArrayList<>();
@@ -61,7 +62,7 @@ public class MyTableModel extends AbstractTableModel {
         CaptchaEntity captchaEntity = captchaList.get(rowIndex);
 
         return switch (columnIndex) {
-            case 0 -> CaptchaEntity.byte2img(captchaEntity.getImgData());
+            case 0 -> captchaEntity.getImgIcon();
             case 1 -> captchaEntity.getImgRes();
             case 2 -> captchaEntity.getImgKey();
             default -> "";
@@ -78,7 +79,7 @@ public class MyTableModel extends AbstractTableModel {
         return captchaList.get(rowIndex);
     }
 
-    public void clearList() {
+    public synchronized void clearList() {
         this.captchaList.clear();
         fireTableDataChanged();
     }
@@ -86,6 +87,5 @@ public class MyTableModel extends AbstractTableModel {
     public JTable getTable() {
         return table;
     }
-
 
 }
