@@ -251,7 +251,7 @@ public class GUI {
                 @Override
                 protected void process(List<CaptchaEntity> captchaEntities) {
                     for (CaptchaEntity captchaEntity : captchaEntities) {
-                        tableModel.add(captchaEntity);
+                        tableModel.addRow(captchaEntity);
                         int newRow = tableModel.getRowCount() - 1;
                         ImageIcon imageIcon = captchaEntity.getImgIcon();
                         if (imageIcon.getIconHeight() > tableModel.getTable().getRowHeight()) {
@@ -303,7 +303,8 @@ public class GUI {
         // String[] valueItems = {"ResBodyRegexBase64", "ResBodyAllByte", "ResBodyAllBase64", "ResBodyRegexBase64", "ResBodyJsonBase64", "ResBodyXmlBase64"};
         // String[] keyItems = {"KeyReg", "KeyNone"};
         // String[] valueItems = {"ImgRegBase64", "ImgAllBytes", "ImgAllBase64"};
-
+        keyRegJTextField.setText("");
+        valueRegJTextField.setText("");
 
         Marker keyMarker = switch (keyItem) {
             case "KeyReg" -> {
@@ -338,7 +339,6 @@ public class GUI {
 
     public CaptchaEntity getCaptchaFromResponse(HttpRequestResponse requestResponse) {
         HttpResponse response = requestResponse.response();
-        // CaptchaEntity captchaEntity = new CaptchaEntity("", null, "");
         CaptchaEntity captchaEntity = new CaptchaEntity();
         // String[] keyItems = {"KeyReg", "KeyNone"};
         // String[] valueItems = {"ImgRegBase64", "ImgAllBytes", "ImgAllBase64"};
@@ -392,9 +392,7 @@ public class GUI {
     }
 
     public void sendCaptchaChk(CaptchaEntity captchaEntity) {
-        if (captchaEntity.getImgData() == null) {
-            captchaEntity.setImgRes("");
-        } else {
+        if (captchaEntity.getImgData() != null) {
             try {
                 java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder().uri(
                                 java.net.URI.create(apiURLJTextField.getText().trim()))
@@ -405,7 +403,6 @@ public class GUI {
                 captchaEntity.setImgRes(response.body());
             } catch (Exception ignored) {
             }
-
         }
     }
 

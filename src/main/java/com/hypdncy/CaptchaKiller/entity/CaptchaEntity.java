@@ -38,7 +38,7 @@ public class CaptchaEntity {
         this.imgKey = "";
         this.imgData = null;
         this.imgIcon = blackIcon;
-        this.imgRes = "";
+        this.imgRes = "识别错误";
     }
 
     public String getImgKey() {

@@ -48,7 +48,7 @@ public class MyHttpHandler implements HttpHandler {
         gui.sendCaptchaChk(captchaEntity);
 
         if (gui.enableUpdateTableJRadioButton.isSelected()) {
-            this.gui.tableModel.add(captchaEntity);
+            this.gui.tableModel.addRow(captchaEntity);
         }
 
         String newBodyString = bodyString

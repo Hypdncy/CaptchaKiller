@@ -69,13 +69,13 @@ public class MyTableModel extends AbstractTableModel {
         };
     }
 
-    public synchronized void add(CaptchaEntity captchaEntity) {
+    public synchronized void addRow(CaptchaEntity captchaEntity) {
         int index = captchaList.size();
         captchaList.add(captchaEntity);
         fireTableRowsInserted(index, index);
     }
 
-    public synchronized CaptchaEntity get(int rowIndex) {
+    public synchronized CaptchaEntity getRow(int rowIndex) {
         return captchaList.get(rowIndex);
     }
 

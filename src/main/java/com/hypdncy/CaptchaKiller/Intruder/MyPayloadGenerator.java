@@ -29,7 +29,7 @@ public class MyPayloadGenerator implements PayloadGenerator {
         CaptchaEntity captchaEntity = this.gui.getCaptchaFromResponse(requestResponse);
         gui.sendCaptchaChk(captchaEntity);
         if(gui.enableUpdateTableJRadioButton.isSelected()){
-            gui.tableModel.add(captchaEntity);
+            gui.tableModel.addRow(captchaEntity);
         }
         return GeneratedPayload.payload(captchaEntity.getImgRes());
     }
