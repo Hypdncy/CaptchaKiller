@@ -38,6 +38,24 @@ import java.util.regex.Pattern;
  * @Version 1.0
  */
 public class GUI {
+    private final String DefaultRequest = """
+            GET /getCap HTTP/1.1
+            Host: 127.0.0.1:60000
+            sec-ch-ua: "Not?A_Brand";v="99", "Chromium";v="130"
+            sec-ch-ua-mobile: ?0
+            sec-ch-ua-platform: "macOS"
+            Accept-Language: zh-CN,zh;q=0.9
+            Upgrade-Insecure-Requests: 1
+            User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.59 Safari/537.36
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+            Sec-Fetch-Site: none
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-User: ?1
+            Sec-Fetch-Dest: document
+            Accept-Encoding: gzip, deflate, br
+            Connection: keep-alive
+            
+            """.replace("\n", "\r\n");
     public JRadioButton enableExtJRadioButton;
     public JRadioButton enableUpdateTableJRadioButton;
     public JTextField apiURLJTextField;
@@ -97,24 +115,7 @@ public class GUI {
         JButton chkCaptchaJButton = new JButton("识别");
 
 
-        List<? extends JComponent> jComponents = Arrays.asList(
-                enableExtJRadioButton,
-                enableUpdateTableJRadioButton,
-                apiURLJLabel,
-                apiURLJTextField,
-                captchaURLJLabel,
-                captchaURLJTextField,
-                keyComboBox,
-                keyJTextField,
-                valueComboBox,
-                valueTextField,
-                keyRegJLabel,
-                keyRegJTextField,
-                valueRegJLabel,
-                valueRegJTextField,
-                getCaptchaJButton,
-                chkCaptchaJButton
-        );
+        List<? extends JComponent> jComponents = Arrays.asList(enableExtJRadioButton, enableUpdateTableJRadioButton, apiURLJLabel, apiURLJTextField, captchaURLJLabel, captchaURLJTextField, keyComboBox, keyJTextField, valueComboBox, valueTextField, keyRegJLabel, keyRegJTextField, valueRegJLabel, valueRegJTextField, getCaptchaJButton, chkCaptchaJButton);
         for (int i = 0; i < jComponents.size() / 2; i++) {
             leftNorthPanel.add(jComponents.get(i * 2), new GBC(0, i, 1, 1).setFill(GBC.HORIZONTAL).setWeight(0, 0));
             leftNorthPanel.add(jComponents.get(i * 2 + 1), new GBC(1, i, 1, 1).setFill(GBC.HORIZONTAL).setWeight(1, 0));
@@ -166,6 +167,7 @@ public class GUI {
         JSplitPane leftSouthPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         UserInterface userInterface = api.userInterface();
         requestViewer = userInterface.createHttpRequestEditor();
+        requestViewer.setRequest(HttpRequest.httpRequest(DefaultRequest));
         responseViewer = userInterface.createHttpResponseEditor();
         JTabbedPane requestJTabbedPane = new JTabbedPane();
         JTabbedPane responseJTabbedPane = new JTabbedPane();
@@ -376,8 +378,7 @@ public class GUI {
                 // 宽度缩放
                 int columnWidth = globalJPane.getRightComponent().getWidth() / 3;
                 if (icon.getIconWidth() > columnWidth) {
-                    Image scaledImage = icon.getImage().getScaledInstance(
-                            columnWidth, -1, Image.SCALE_SMOOTH);
+                    Image scaledImage = icon.getImage().getScaledInstance(columnWidth, -1, Image.SCALE_SMOOTH);
                     captchaEntity.setImgIcon(new ImageIcon(scaledImage));
                 } else {
                     captchaEntity.setImgIcon(icon);
@@ -394,11 +395,7 @@ public class GUI {
     public void sendCaptchaChk(CaptchaEntity captchaEntity) {
         if (captchaEntity.getImgData() != null) {
             try {
-                java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder().uri(
-                                java.net.URI.create(apiURLJTextField.getText().trim()))
-                        .header("Content-Type", "application/x-www-form-urlencoded")
-                        .POST(java.net.http.HttpRequest.BodyPublishers.ofByteArray(captchaEntity.getImgData()))
-                        .build();
+                java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder().uri(java.net.URI.create(apiURLJTextField.getText().trim())).header("Content-Type", "application/x-www-form-urlencoded").POST(java.net.http.HttpRequest.BodyPublishers.ofByteArray(captchaEntity.getImgData())).build();
                 java.net.http.HttpResponse<String> response = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
                 captchaEntity.setImgRes(response.body());
             } catch (Exception ignored) {
