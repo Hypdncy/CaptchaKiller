@@ -55,7 +55,7 @@ public class GUI {
     private HttpRequestResponse uiHttpRequestResponse;
     public final MyTableModel tableModel;
     public final MontoyaApi api;
-    public final int TableRowHeight ;
+    public final int TableRowHeight;
 
 
     public GUI(MontoyaApi api, MyTableModel tableModel) {
@@ -372,16 +372,16 @@ public class GUI {
                 Image img = ImageIO.read(buff);
                 ImageIcon icon = new ImageIcon(img);
                 captchaEntity.setImgIcon(icon);
-                // int columnWidth = this.tableModel.getTable().getColumn(0).getWidth();
 
                 // 宽度缩放
-                // if (icon.getIconWidth() > columnWidth) {
-                //     Image scaledImage = icon.getImage().getScaledInstance(
-                //             columnWidth, -1, Image.SCALE_SMOOTH);
-                //     captchaEntity.setImgIcon(new ImageIcon(scaledImage));
-                // } else {
-                //     captchaEntity.setImgIcon(icon);
-                // }
+                int columnWidth = globalJPane.getRightComponent().getWidth() / 3;
+                if (icon.getIconWidth() > columnWidth) {
+                    Image scaledImage = icon.getImage().getScaledInstance(
+                            columnWidth, -1, Image.SCALE_SMOOTH);
+                    captchaEntity.setImgIcon(new ImageIcon(scaledImage));
+                } else {
+                    captchaEntity.setImgIcon(icon);
+                }
             }
         } catch (IOException e) {
             // throw new RuntimeException(e);
